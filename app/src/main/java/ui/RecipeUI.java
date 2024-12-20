@@ -1,9 +1,10 @@
 package ui;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import data.RecipeFileHandler;
 
@@ -37,6 +38,7 @@ public class RecipeUI {
                 switch (choice) {
                     case "1":
                         // 設問1: 一覧表示機能
+                        displayRecipes();
                         break;
                     case "2":
                         // 設問2: 新規登録機能
@@ -62,7 +64,25 @@ public class RecipeUI {
      * RecipeFileHandlerから読み込んだレシピデータを整形してコンソールに表示します。
      */
     private void displayRecipes() {
+        ArrayList<String> recips = fileHandler.readRecipes();//RecipeFileHandler.readRecipes();はエラーがでた
 
+        if(recips.isEmpty()) {
+            System.out.println("No recipes available.");
+        } else {
+            System.out.println("Recipes:");
+            System.out.println("-----------------------------------");
+
+            for(String recipeDate : recips) {
+                String[] parts = recipeDate.split(",");
+                String recipeName = parts[0].trim();
+                String ingredients = String.join(",", Arrays.copyOfRange(parts, 1, parts.length));
+
+                System.out.println("Recipe Name:" + recipeName);
+                System.out.println("Main Ingredients:" + ingredients);
+                System.out.println("-----------------------------------");
+
+            }
+        }
     }
 
     /**
